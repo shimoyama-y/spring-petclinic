@@ -1,0 +1,26 @@
+name: Deploy to Azure
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        run: |
+          echo "Login step (あとで設定)"
+
+      - name: Deploy
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "Deploy to PROD"
+          else
+            echo "Deploy to DEV"
+          fi
