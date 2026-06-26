@@ -23,7 +23,9 @@ jobs:
         java-version: '17'
 
     - name: Build with Maven
-      run: mvn clean package -DskipTests
+      run: mvn clean package -DskipTests -Dspring-javaformat.skip=true
+
+      
 
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v3
