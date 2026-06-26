@@ -15,12 +15,23 @@ jobs:
 
       - name: Azure Login
         run: |
-          echo "Login step (あとで設定)"
+          az login --service-principal \
+            -u ${{ secrets.AZURE_CLIENT_ID }} \
+            -p ${{ secrets.AZURE_CLIENT_SECRET }} \
+            --tenant ${{ secrets.AZURE_TENANT_ID }}
 
       - name: Deploy
         run: |
           if [ "${{ github.ref }}" == "refs/heads/main" ]; then
             echo "Deploy to PROD"
+            az containerapp update \
+              --name spring-petclinic-app \
+              --resource-group rg-spring-petclinic \
+              --image ghcr.io/shimoyama-y/spring-petclinic:latest
           else
             echo "Deploy to DEV"
+            az containerapp update \
+              --name spring-petclinic-dev \
+              --resource-group rg-spring-petclinic \
+              --image ghcr.io/shimoyama-y/spring-petclinic:latest
           fi
